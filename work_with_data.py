@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
+import matplotlib.pyplot as plt
 
 # Get the data from the API
 today=datetime.now()
@@ -29,3 +30,32 @@ print(data)
 
 daily_data=data['daily']
 print(daily_data)
+
+df=pd.DataFrame({
+    'date':daily_data['time'],
+    'max_temp':daily_data['temperature_2m_max'],
+    'min_temp':daily_data['temperature_2m_min']
+})
+
+df['date']=pd.to_datetime(df['date'])
+#````````````````````````````````````````````````````````````````````````
+
+#````````````````````````````````````````````````````````````````````````
+# Plot the data
+#create plot
+plt.figure(figsize=(10,6))
+plt.plot(df['date'],df['max_temp'],marker='o')
+plt.plot(df['date'],df['min_temp'],marker='o')
+
+
+plt.xlable('Date')
+plt.ylable('Temperature (°C)')
+plt.title('paris weather-past 7 days')
+plt.legend()
+
+#rotate x-axis labels for readabilit
+plt.xticks(rotation=45)
+plt.tight_layout()
+
+plt.savefig('paris_weather.png')
+plt.show()
