@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
-
+import os
 # Get the data from the API
 today=datetime.now()
 print(today)
@@ -48,7 +48,7 @@ plt.plot(df['date'],df['max_temp'],marker='o')
 plt.plot(df['date'],df['min_temp'],marker='o')
 
 
-plt.xlable('Date')
+plt.xlable('date')
 plt.ylable('Temperature (°C)')
 plt.title('paris weather-past 7 days')
 plt.legend()
@@ -59,3 +59,11 @@ plt.tight_layout()
 
 plt.savefig('paris_weather.png')
 plt.show()
+
+
+#creating dtata folder if not exist
+if not os.path.exists('data'):
+    os.makedirs('data')
+
+df.to_csv('data/paris_weather.csv')
+print('data saved in data/paris_weather.csv')
